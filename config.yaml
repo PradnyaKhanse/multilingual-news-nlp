@@ -1,0 +1,87 @@
+# ==============================================================================
+# Pipeline Configuration: Hindi News Classification, Summarization & Translation
+# ==============================================================================
+
+# General settings
+project:
+  name: "Multilingual Hindi News NLP Pipeline"
+  version: "1.0.0"
+  seed: 42
+  device: "auto" # "auto", "cuda", "cpu", or "mps"
+
+# Categories for classification
+categories:
+  labels:
+    - "Politics"
+    - "Sports"
+    - "Business"
+    - "Entertainment"
+    - "Technology"
+  labels_hi:
+    - "राजनीति"
+    - "खेल"
+    - "व्यापार"
+    - "मनोरंजन"
+    - "प्रौद्योगिकी"
+  label2id:
+    "Politics": 0
+    "Sports": 1
+    "Business": 2
+    "Entertainment": 3
+    "Technology": 4
+  id2label:
+    0: "Politics"
+    1: "Sports"
+    2: "Business"
+    3: "Entertainment"
+    4: "Technology"
+
+# Classification Model Settings
+classification:
+  model_name: "xlm-roberta-base"
+  fallback_model: "ai4bharat/indic-bert"
+  saved_model_path: "models/classifier/best_model"
+  max_seq_length: 256
+  batch_size: 16
+  eval_batch_size: 16
+  learning_rate: 2e-5
+  num_epochs: 3
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  fp16: false # Set true for GPU training
+
+# Summarization Model Settings
+summarization:
+  # Primary model: IndicBART or fine-tuned mT5 for Hindi
+  model_name: "ai4bharat/IndicBART"
+  fallback_model: "csebuetnlp/mT5_multilingual_XLSum"
+  lightweight_model: "google/mt5-small"
+  saved_model_path: "models/summarizer/best_model"
+  max_input_length: 384
+  max_target_length: 70
+  min_target_length: 20
+  num_beams: 2
+  length_penalty: 0.8
+  no_repeat_ngram_size: 3
+  early_stopping: true
+
+# Translation Model Settings
+translation:
+  # IndicTrans2 models for Indic-En and Indic-Indic
+  indic_en_model: "ai4bharat/indictrans2-indic-en-1B"
+  indic_indic_model: "ai4bharat/indictrans2-indic-indic-1B"
+  # Fast fallbacks
+  fast_en_model: "Helsinki-NLP/opus-mt-hi-en"
+  fast_mr_model: "facebook/mbart-large-50-many-to-many-mmt"
+  saved_model_path: "models/translator/"
+  max_length: 90
+  num_beams: 1
+
+# Paths for data and artifacts
+paths:
+  data_dir: "data"
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  models_dir: "models"
+  outputs_dir: "outputs"
+  logs_dir: "logs"

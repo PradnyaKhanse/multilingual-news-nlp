@@ -1,0 +1,37 @@
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+# PyTorch / Transformer Model Weights & Checkpoints (Exceeds GitHub 100MB limit)
+*.bin
+*.pt
+*.pth
+*.safetensors
+models/
+checkpoints/
+
+# System and OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# IDE & Editor settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Large archives
+*.zip
+*.tar
+*.tar.gz
+*.rar
